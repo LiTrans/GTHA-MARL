@@ -28,6 +28,7 @@
   <a href="#citation">Citation</a>
 </p>
 
+
 This repository contains the code for the paper of the same title. The paper presents a census-based microsimulation of the Greater Toronto and Hamilton Area in which workers and firms learn search and hiring jointly through multi-agent reinforcement learning.
 
 The market starts in 2006 with 1,000 residents and 80 firm slots in 17 industries. Worker attributes come from the 2006 Census and the firm roster from Canadian Business Counts. Residents and firms are located in the region's three census metropolitan areas, Oshawa, Toronto and Hamilton. Each month residents are employed, unemployed or outside the labour force, and they move between these states through search, hiring, separation, retirement and re-entry. Where a worker lives and where a job is located set the commute, so workers who face the same regional vacancy rate can reach different jobs.
