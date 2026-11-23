@@ -4,7 +4,7 @@
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="docs/banner_dark.svg">
     <source media="(prefers-color-scheme: light)" srcset="docs/banner_light.svg">
-    <img src="docs/banner_light.svg" alt="A census-based multi-agent reinforcement learning application in the Greater Toronto and Hamilton Area. Drifting dots stand for the agents of the model." width="100%">
+    <img src="docs/banner_light.svg" alt="A census-based multi-agent reinforcement learning application in the Greater Toronto and Hamilton Area. Figures of workers drift among buildings that stand for firms, and a firm grows while it hires." width="100%">
   </picture>
 </p>
 
