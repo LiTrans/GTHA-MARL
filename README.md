@@ -210,7 +210,19 @@ Travel-time and other derived tables are cached under the user cache directory i
 
 ## Citation
 
-If you use this code, please cite the paper. The reference and the DOI of the archived release will be added here on publication.
+If you use this code, please cite the paper. The reference and the DOI of the archived release will be added here on publication. Until then, please cite this repository.
+
+```bibtex
+@misc{Waqfi2026GTHAMARL,
+  author       = {Waqfi, Lina and Farooq, Bilal and Patterson, Zachary},
+  title        = {{GTHA-MARL}},
+  year         = {2026},
+  publisher    = {GitHub},
+  journal      = {GitHub repository},
+  howpublished = {\url{https://github.com/LiTrans/GTHA-MARL}},
+  note         = {Commit: 0804422}
+}
+```
 
 ## Licence
 
