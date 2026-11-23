@@ -1,8 +1,16 @@
 # An agent-based metropolitan labour-market microsimulation with jointly learned worker and firm decisions
 
-This repository holds the code for the paper of the same title. The model simulates monthly worker search, firm recruitment and matching in the Toronto, Oshawa and Hamilton census metropolitan areas. Workers and firms have separate policies. A three-stage reinforcement learning curriculum trains them in the same simulated market. Population renewal, workplace capacity and commuting constraints affect who can take which job.
+This repository contains the code for the paper of the same title. The paper presents a census-based microsimulation of the Greater Toronto and Hamilton Area in which workers and firms learn search and hiring jointly through multi-agent reinforcement learning.
 
-![Model framework](figures/framework.svg)
+<p align="center">
+  <img src="docs/model_framework.svg" alt="Model framework in three panels" width="100%">
+</p>
+
+Model framework. Panel **a** shows the data sources and the three census metropolitan areas, panel **b** the monthly decisions and training updates, and panel **c** the training and evaluation design. The locator map is adapted from Statistics Canada, 2006 Census metropolitan area and census agglomeration digital boundary file (gcma000a06a_e). This does not constitute an endorsement by Statistics Canada of this product.
+
+Each month workers choose how to search and whether to retire when eligible. Firms choose vacancies, selectivity and posted wages. Screening, offer acceptance and wage bargaining determine which matches become hires, and the acceptance rule weighs commute time alongside pay, skill match and job security. The resident population renews every July, and funded job capacity changes with population size.
+
+Training has three stages. Workers first learn against a fixed firm rule, both sides then learn jointly, and a refinement stage follows. Learning uses multi-agent proximal policy optimisation with dual-transformer worker policies and a separate firm policy. The policies are frozen for evaluation. The evaluation compares the trained policies with two untrained controls and isolates the contribution of learned firm decisions. It also covers the offer-acceptance, scale, pandemic and tariff experiments of the paper.
 
 All simulation, training, evaluation and figure-generation code is included. The project data cannot be shared, so the repository provides synthetic data for code demonstration. The code is therefore not expected to reproduce the results reported in the paper quantitatively.
 
@@ -116,6 +124,7 @@ Travel-time and other derived tables are cached under the user cache directory i
 | `synthetic_data/` | Synthetic demonstration dataset and the generator that creates it |
 | `evaluation/` | Evaluation scenarios, outcome collectors and scoring |
 | `figures/` | Figure recipes and plotting example |
+| `docs/` | Framework figure shown above |
 
 ## Citation
 
