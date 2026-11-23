@@ -128,6 +128,14 @@ python figures/render.py --history demo/history42/monthly.csv --output demo/hist
 
 On the tested CPU configuration, training takes about two minutes and the one-year history takes 10 to 20 seconds. Choose a fresh output directory for each run.
 
+### Expected output on the synthetic example
+
+<p align="center">
+  <img src="docs/demonstration_rates.svg" alt="Monthly employment, participation and unemployment rates of the demonstration history" width="100%">
+</p>
+
+The figure written by the third command on the tested configuration. It shows the synthetic example and is not a result of the paper.
+
 ### Plotting fixture
 
 The plotting commands can also be tried on their own fixture.
