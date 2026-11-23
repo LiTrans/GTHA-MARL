@@ -1,0 +1,10 @@
+torch==2.11.0
+torchrl==0.13.3
+tensordict==0.13.0
+numpy>=2.0,<3
+pandas>=2.2,<3
+scipy>=1.13,<2
+matplotlib>=3.9,<4
+lxml>=5,<7
+pypdf>=5,<7
+reportlab>=4,<5

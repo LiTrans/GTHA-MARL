@@ -1,0 +1,5 @@
+{
+  "note": "SYNTHETIC demo data \u2014 no repair performed; all firm DAs generated directly against the synthetic centroid table.",
+  "n_firms": 300,
+  "source": "make_synthetic_data.py"
+}

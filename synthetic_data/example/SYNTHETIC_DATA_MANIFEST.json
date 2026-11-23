@@ -1,0 +1,8 @@
+{
+  "generator": "synthetic_data/make_synthetic_data.py",
+  "seed": 42,
+  "n_workers": 9000,
+  "n_firms": 300,
+  "n_das": 600,
+  "disclaimer": "ALL VALUES SYNTHETIC. Not derived from any Statistics Canada record. Pipeline demo only; does not reproduce paper results."
+}
