@@ -1,6 +1,38 @@
-# An agent-based metropolitan labour-market microsimulation with jointly learned worker and firm decisions
+<a name="readme-top"></a>
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/banner_dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="docs/banner_light.svg">
+    <img src="docs/banner_light.svg" alt="A census-based multi-agent reinforcement learning application in the Greater Toronto and Hamilton Area. Drifting dots stand for the agents of the model." width="100%">
+  </picture>
+</p>
+
+<p align="center">
+  <img src="docs/badge_python.svg" alt="Python 3.11 and 3.13" height="26">
+  <img src="docs/badge_pytorch.svg" alt="PyTorch 2.10 and 2.11" height="26">
+  <img src="docs/badge_platform.svg" alt="Windows and Linux" height="26">
+  <img src="docs/badge_data.svg" alt="Synthetic example data" height="26">
+  <img src="docs/badge_licence.svg" alt="MIT licence" height="26">
+</p>
+
+<h1 align="center">An agent-based metropolitan labour-market microsimulation with jointly learned worker and firm decisions</h1>
+
+<p align="center">
+  <a href="#overview">Overview</a> ·
+  <a href="#system-requirements">Requirements</a> ·
+  <a href="#installation">Installation</a> ·
+  <a href="#demonstration">Demonstration</a> ·
+  <a href="#instructions-for-use">Instructions for use</a> ·
+  <a href="#repository-layout">Layout</a> ·
+  <a href="#citation">Citation</a>
+</p>
 
 This repository contains the code for the paper of the same title. The paper presents a census-based microsimulation of the Greater Toronto and Hamilton Area in which workers and firms learn search and hiring jointly through multi-agent reinforcement learning.
+
+The market starts in 2006 with 1,000 residents and 80 firm slots in 17 industries. Worker attributes come from the 2006 Census and the firm roster from Canadian Business Counts. Residents and firms are located in the region's three census metropolitan areas, Oshawa, Toronto and Hamilton. Each month residents are employed, unemployed or outside the labour force, and they move between these states through search, hiring, separation, retirement and re-entry. Where a worker lives and where a job is located set the commute, so workers who face the same regional vacancy rate can reach different jobs.
+
+## Overview
 
 <p align="center">
   <img src="docs/model_framework.svg" alt="Model framework in three panels" width="100%">
@@ -8,11 +40,42 @@ This repository contains the code for the paper of the same title. The paper pre
 
 Model framework. Panel **a** shows the data sources and the three census metropolitan areas, panel **b** the monthly decisions and training updates, and panel **c** the training and evaluation design. The locator map is adapted from Statistics Canada, 2006 Census metropolitan area and census agglomeration digital boundary file (gcma000a06a_e). This does not constitute an endorsement by Statistics Canada of this product.
 
-Each month workers choose how to search and whether to retire when eligible. Firms choose vacancies, selectivity and posted wages. Screening, offer acceptance and wage bargaining determine which matches become hires, and the acceptance rule weighs commute time alongside pay, skill match and job security. The resident population renews every July, and funded job capacity changes with population size.
+### One month in the model
 
-Training has three stages. Workers first learn against a fixed firm rule, both sides then learn jointly, and a refinement stage follows. Learning uses multi-agent proximal policy optimisation with dual-transformer worker policies and a separate firm policy. The policies are frozen for evaluation. The evaluation compares the trained policies with two untrained controls and isolates the contribution of learned firm decisions. It also covers the offer-acceptance, scale, pandemic and tariff experiments of the paper.
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <b>Workers</b><br>
+      Each month workers choose how to search and whether to retire when eligible.
+    </td>
+    <td width="50%" valign="top">
+      <b>Firms</b><br>
+      Firms choose vacancies, selectivity and posted wages.
+    </td>
+  </tr>
+</table>
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <b>Matching</b><br>
+      Screening, offer acceptance and wage bargaining determine which matches become hires. The acceptance rule weighs commute time alongside pay, skill match and job security.
+    </td>
+    <td width="50%" valign="top">
+      <b>Population</b><br>
+      The resident population renews every July, and funded job capacity changes with population size.
+    </td>
+  </tr>
+</table>
 
-All simulation, training, evaluation and figure-generation code is included. The project data cannot be shared, so the repository provides synthetic data for code demonstration. The code is therefore not expected to reproduce the results reported in the paper quantitatively.
+### Training and evaluation
+
+Training has three stages.
+
+| Stage 1 | Stage 2 | Stage 3 |
+| --- | --- | --- |
+| Workers learn against a fixed firm rule. | Workers and firms learn jointly. | A refinement stage follows. |
+
+Learning uses multi-agent proximal policy optimisation with dual-transformer worker policies and a separate firm policy. The policies are frozen for evaluation. The evaluation compares the trained policies with two untrained controls and isolates the contribution of learned firm decisions. It also covers the offer-acceptance, scale, pandemic and tariff experiments of the paper.
 
 ## System requirements
 
@@ -29,7 +92,7 @@ The code is written in Python and needs no non-standard hardware. The demonstrat
 | pandas | 2.2.3 | 3.0.0 | 2.3.3 |
 | scipy | 1.18.0 | 1.17.0 | 1.18.1 |
 
-`requirements.txt` pins the versions of the first column for torch, torchrl and tensordict and gives ranges for the other packages. Rendering the vector layouts for main Figures 1, 4 and 5 also requires [Inkscape](https://inkscape.org/).
+`requirements.txt` lists the packages to install. It fixes torch, torchrl and tensordict at the versions of the first column and accepts a range of versions for the other packages. Main Figures 1, 4 and 5 are drawn as SVG files and converted to PDF with [Inkscape](https://inkscape.org/), a free drawing program, so rendering these three figures also requires Inkscape.
 
 ## Installation
 
@@ -57,9 +120,15 @@ python -m evaluation.run historical --data synthetic_data/example --checkpoint d
 python figures/render.py --history demo/history42/monthly.csv --output demo/history-figure
 ```
 
-The first command runs one short update in each stage and writes `demo/policy42/stage3/final_checkpoint.pt`. It also saves `demo/policy42/stage1/initial_checkpoint.pt` for the untrained comparisons. The second command writes `history.json`, `simulation_log.json`, `monthly.json` and `monthly.csv` to `demo/history42`. The third writes a figure of the employment, participation and unemployment rates of that history.
+| Command | What it does | What it writes |
+| :---: | --- | --- |
+| 1 | Runs one short update in each stage | `demo/policy42/stage3/final_checkpoint.pt`, and `demo/policy42/stage1/initial_checkpoint.pt` for the untrained comparisons |
+| 2 | Simulates one year with the trained policy | `history.json`, `simulation_log.json`, `monthly.json` and `monthly.csv` in `demo/history42` |
+| 3 | Plots the employment, participation and unemployment rates of that history | `labour_market_rates.svg` and `labour_market_rates.pdf` in `demo/history-figure` |
 
-Expected output. On the tested CPU configuration, training takes about two minutes and the one-year history takes 10 to 20 seconds. With seed 42 the first data row of `demo/history42/monthly.csv` gives an employment rate of 0.724, a participation rate of 0.764 and an unemployment rate of 0.0524. All rates in that file are fractions. Values can differ in the last digits across library versions and hardware. Choose a fresh output directory for each run.
+On the tested CPU configuration, training takes about two minutes and the one-year history takes 10 to 20 seconds. Choose a fresh output directory for each run.
+
+### Plotting fixture
 
 The plotting commands can also be tried on their own fixture.
 
@@ -88,6 +157,9 @@ The figure commands read source tables and write vector figures. The [figure gui
 
 `--data` names a directory with the layout of `synthetic_data/example`. To write another synthetic dataset, use `python synthetic_data/make_synthetic_data.py --out demo/data --seed 43` and pass that directory to both training and evaluation. The generator writes every table the model reads, with the same columns as the study inputs.
 
+<details>
+<summary><b>Tables of the data directory</b></summary>
+
 | Path under the data directory | Contents |
 | --- | --- |
 | `Data_Agents/Microsim_Output/population_2006.csv` | One row per synthetic resident in 2006 with age, sex, education, skill level, labour-force status, industry, wage, tenure, immigrant status, home dissemination area, metropolitan area and weight |
@@ -109,6 +181,8 @@ The figure commands read source tables and write vector figures. The [figure gui
 | `Data/Simulation/Parameters/da_centroids_gtha.csv` | Latitude and longitude of each dissemination area |
 | `Data/Simulation/Parameters/workplace/` | 2006 employment by workplace area, industry and class of worker, and commuting flows between areas |
 
+</details>
+
 Tables with the suffix `_2017_2025` extend the five rate tables beyond 2016 and are read when present. The scenarios that run past 2016 use them.
 
 The study inputs come from the Statistics Canada 2006 Census Individuals public-use microdata file, a custom tabulation of Canadian Business Counts, the Labour Force Survey public-use microdata files for 2006 to 2016, the Job Vacancy and Wage Survey, Ontario life tables and published pandemic drivers. The Data availability statement of the paper lists them with their catalogue and table numbers. Derived population files embed licensed inputs and are not redistributed.
@@ -119,12 +193,12 @@ Travel-time and other derived tables are cached under the user cache directory i
 
 | Path | Contents |
 | --- | --- |
-| `gtha_labor_marl/` | Market environment, worker and firm policies, rewards, training implementation and stage settings |
-| `train.py` | Three-stage training entry point |
-| `synthetic_data/` | Synthetic demonstration dataset and the generator that creates it |
-| `evaluation/` | Evaluation scenarios, outcome collectors and scoring |
-| `figures/` | Figure recipes and plotting example |
-| `docs/` | Framework figure shown above |
+| [`gtha_labor_marl/`](gtha_labor_marl) | Market environment, worker and firm policies, rewards, training implementation and stage settings |
+| [`train.py`](train.py) | Three-stage training entry point |
+| [`synthetic_data/`](synthetic_data) | Synthetic demonstration dataset and the generator that creates it |
+| [`evaluation/`](evaluation) | Evaluation scenarios, outcome collectors and scoring |
+| [`figures/`](figures) | Figure recipes and plotting example |
+| [`docs/`](docs) | Images shown on this page |
 
 ## Citation
 
@@ -133,3 +207,5 @@ If you use this code, please cite the paper. The reference and the DOI of the ar
 ## Licence
 
 The source code is distributed under the terms in [LICENSE](LICENSE).
+
+<p align="center"><a href="#readme-top">Back to top</a></p>
