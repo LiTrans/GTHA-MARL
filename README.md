@@ -221,7 +221,7 @@ If you use this code, please cite the paper. The reference and the DOI of the ar
   publisher    = {GitHub},
   journal      = {GitHub repository},
   howpublished = {\url{https://github.com/LiTrans/GTHA-MARL}},
-  note         = {Commit: 0804422}
+  note         = {Commit: da73326}
 }
 ```
 
